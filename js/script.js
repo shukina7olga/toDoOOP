@@ -50,6 +50,7 @@ class Todo {
                 key: this.generateKey(),
             };
             this.todoData.set(newTodo.key, newTodo);
+            this.input.value = '';
             this.render();
         } else if (this.input.value === '') {
             alert('Введите значение, поле не должно быть пустым.');
@@ -70,17 +71,17 @@ class Todo {
             }
         });
         this.render();
-        // по ключу найти айтем
-        // удалить из Map
-        // сделать рендер
     }
 
     completedItem(todoKey) {
-        const keys = Array.from(this.todoData.keys());
-        this.todoData.newTodo.completed = true;
-    // перебраь через foreEach все элементы тодудата
-    // найти элемент которому соответствует тот ключ элемен на котор кликн
-    //поменять значение комплетед с - на +
+        for (const [key, value] of this.todoData) { //деструктуризация Map
+            if (todoKey === key && value.completed === false) {
+                value.completed = true;
+            } else if (todoKey === key && value.completed === true) {
+                value.completed = false;
+            }
+        }
+        this.render();
     }
 
     handler() {
