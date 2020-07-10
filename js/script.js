@@ -1,3 +1,4 @@
+// eslint-disable-next-line strict
 'use strict';
 
 class Todo {
@@ -7,7 +8,6 @@ class Todo {
         this.input = document.querySelector(input);
         this.todoList = document.querySelector(todoList);
         this.todoCompleted = document.querySelector(todoCompleted);
-        this.todoRemove = document.querySelector('.todo-remove');
         this.todoData = new Map(JSON.parse(localStorage.getItem('toDoList')));
     }
 
@@ -75,25 +75,23 @@ class Todo {
         // сделать рендер
     }
 
-    //completedItem(todoKey) {
-    //    this.todoData.newTodo.completed = true;
+    completedItem(todoKey) {
+        const keys = Array.from(this.todoData.keys());
+        this.todoData.newTodo.completed = true;
     // перебраь через foreEach все элементы тодудата
     // найти элемент которому соответствует тот ключ элемен на котор кликн
     //поменять значение комплетед с - на +
-    //}
+    }
 
     handler() {
-      this.todoContainer.addEventListener('click', event => {
+        this.todoContainer.addEventListener('click', event => {
             const target = event.target;
             console.log(event.target);
             if (target.classList.contains('todo-remove')) {
                 target.key = target.closest('.todo-item').key;
-                console.log(`ключ:`, target.key);
-                //const todoKey = target.key;
                 this.deleteItem(target.key);
             } else if (target.classList.contains('todo-complete')) {
                 target.key = target.closest('.todo-item').key;
-                //const todoKey = target.key;
                 this.completedItem(target.key);
             }
         });
