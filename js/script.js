@@ -62,7 +62,8 @@ class Todo {
     }
 
     deleteItem(todoKey) {
-        this.todoData.keys.forEach(element => {
+        const keys = this.todoData.keys();
+        keys.forEach(element => {
             if (todoKey === element) {
                 this.todoData.delete(todoKey);
             }
@@ -73,24 +74,24 @@ class Todo {
         // сделать рендер
     }
 
-    completedItem(todoKey) {
-        this.todoData.newTodo.completed = true;
+    //completedItem(todoKey) {
+    //    this.todoData.newTodo.completed = true;
     // перебраь через foreEach все элементы тодудата
     // найти элемент которому соответствует тот ключ элемен на котор кликн
     //поменять значение комплетед с - на +
-    }
+    //}
 
     handler() {
         this.todoContainer.addEventListener('click', event => {
             const target = event.target;
             if (target.classList.contains('.todo-remove')) {
                 target.key = target.closest('.todo-item').key;
-                const todoKey = target.key;
-                this.deleteItem(todoKey);
+                //const todoKey = target.key;
+                this.deleteItem(target.key);
             } else if (target.classList.contains('.todo-complete')) {
                 target.key = target.closest('.todo-item').key;
-                const todoKey = target.key;
-                this.completedItem(todoKey);
+                //const todoKey = target.key;
+                this.completedItem(target.key);
             }
         });
     }
