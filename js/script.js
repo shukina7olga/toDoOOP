@@ -1,4 +1,3 @@
-// eslint-disable-next-line strict
 'use strict';
 
 class Todo {
@@ -26,6 +25,7 @@ class Todo {
     createItem(todo) {
         const li = document.createElement('li');
         li.classList.add('todo-item');
+        li.key = todo.key;
         li.insertAdjacentHTML('beforeend', `
             <span class="text-todo">${todo.value}</span>
             <div class="todo-buttons">
@@ -62,7 +62,8 @@ class Todo {
     }
 
     deleteItem(todoKey) {
-        const keys = this.todoData.keys();
+        const keys = Array.from(this.todoData.keys());
+        console.log(keys);
         keys.forEach(element => {
             if (todoKey === element) {
                 this.todoData.delete(todoKey);
@@ -82,13 +83,15 @@ class Todo {
     //}
 
     handler() {
-        this.todoContainer.addEventListener('click', event => {
+      this.todoContainer.addEventListener('click', event => {
             const target = event.target;
-            if (target.classList.contains('.todo-remove')) {
+            console.log(event.target);
+            if (target.classList.contains('todo-remove')) {
                 target.key = target.closest('.todo-item').key;
+                console.log(`ключ:`, target.key);
                 //const todoKey = target.key;
                 this.deleteItem(target.key);
-            } else if (target.classList.contains('.todo-complete')) {
+            } else if (target.classList.contains('todo-complete')) {
                 target.key = target.closest('.todo-item').key;
                 //const todoKey = target.key;
                 this.completedItem(target.key);
@@ -104,3 +107,4 @@ class Todo {
 
 const todo = new Todo('.todo-control', '.header-input', '.todo-list', '.todo-completed');
 todo.init();
+todo.handler();
