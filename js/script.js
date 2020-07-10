@@ -4,9 +4,11 @@
 class Todo {
     constructor(form, input, todoList, todoCompleted) {
         this.form = document.querySelector(form);
+        this.todoContainer = document.querySelector('.todo-container');
         this.input = document.querySelector(input);
         this.todoList = document.querySelector(todoList);
         this.todoCompleted = document.querySelector(todoCompleted);
+        this.todoRemove = document.querySelector('.todo-remove');
         this.todoData = new Map(JSON.parse(localStorage.getItem('toDoList')));
     }
 
@@ -49,11 +51,48 @@ class Todo {
             };
             this.todoData.set(newTodo.key, newTodo);
             this.render();
+        } else if (this.input.value === '') {
+            alert('Введите значение, поле не должно быть пустым.');
+            this.render();
         }
     }
 
     generateKey() {
         return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    }
+
+    deleteItem(todoKey) {
+        this.todoData.keys.forEach(element => {
+            if (todoKey === element) {
+                this.todoData.delete(todoKey);
+            }
+        });
+        this.render();
+        // по ключу найти айтем
+        // удалить из Map
+        // сделать рендер
+    }
+
+    completedItem(todoKey) {
+        this.todoData.newTodo.completed = true;
+    // перебраь через foreEach все элементы тодудата
+    // найти элемент которому соответствует тот ключ элемен на котор кликн
+    //поменять значение комплетед с - на +
+    }
+
+    handler() {
+        this.todoContainer.addEventListener('click', event => {
+            const target = event.target;
+            if (target.classList.contains('.todo-remove')) {
+                target.key = target.closest('.todo-item').key;
+                const todoKey = target.key;
+                this.deleteItem(todoKey);
+            } else if (target.classList.contains('.todo-complete')) {
+                target.key = target.closest('.todo-item').key;
+                const todoKey = target.key;
+                this.completedItem(todoKey);
+            }
+        });
     }
 
     init() {
